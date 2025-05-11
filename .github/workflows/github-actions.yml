@@ -85,8 +85,8 @@ jobs:
     environment: ${{ github.base_ref  }}
     if: >
       (
-        ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref) ||
-        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) &&
+        (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref) ||
+        contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref)) &&
         (github.event.pull_request.merged == true)
       ) 
       
