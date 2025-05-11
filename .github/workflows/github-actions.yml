@@ -5,9 +5,9 @@ on:
     types: [opened,closed]
     branches: [dev, qa, uat, main]
 
-  # pull_request_review:
-  #   types: [submitted]
-  #   branches: [dev, qa, uat, main]
+  pull_request_review:
+    types: [submitted]
+    branches: [dev, qa, uat, main]
 
   # push:
   #   branches: [dev, qa, uat, main]
@@ -87,7 +87,7 @@ jobs:
       (
         ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)) ||
         (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) &&
-        (github.event.pull_request.merged == true)
+        ((github.event.pull_request.merged == true) || (github.event.request.status == 'approved'))
       ) 
       
     steps:
