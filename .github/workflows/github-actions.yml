@@ -50,6 +50,7 @@ jobs:
   pre-commits:
     name: "Check on the prerequisites"
     runs-on: ubuntu-latest
+    environment: dev
     if: >
       (
         (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref) && github.event_name == 'pull_request') ||
@@ -75,6 +76,7 @@ jobs:
 #         github.event.head_commit.message != ''
   pr-approved-and-merged:
     runs-on: ubuntu-latest
+    environment: dev
     if: >
       (
         contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref) &&
