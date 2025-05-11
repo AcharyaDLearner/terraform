@@ -58,8 +58,8 @@ jobs:
     environment: ${{ github.event.inputs.environment  }}
     if: >
       (
-        (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
-        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))
+        ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
+        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) && (github.event == 'pull_request')
       ) 
     
     steps:
@@ -75,18 +75,21 @@ jobs:
 
 # github.event_name == 'push' &&
 #         github.event.head_commit.message != ''
+
+# (
+#         contains(fromJSON('["Shwetha118", "aindurthi"]'), github.actor) ||
+#         contains(fromJSON('["Shwetha118", "aindurthi"]'), github.triggering_actor)
+#       )
   pr-approved-and-merged:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment  }}
     if: >
       (
-        contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref) &&
+        ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)) ||
+        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) &&
         (github.event.pull_request.merged == true) || (github.event.request.state == 'approved')
-      ) &&
-      (
-        contains(fromJSON('["Shwetha118", "aindurthi"]'), github.actor) ||
-        contains(fromJSON('["Shwetha118", "aindurthi"]'), github.triggering_actor)
-      )
+      ) 
+      
     steps:
       - name: Approved and Merged
         run: echo "✅ Pull request approved and merged into environment ${{ github.event.inputs.environment }}"
