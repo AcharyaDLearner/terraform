@@ -57,8 +57,8 @@ jobs:
         (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))
       ) &&
       (
-        contains(fromJSON('["Shwetha118", "aindurthi"]'), github.actor) ||
-        contains(fromJSON('["Shwetha118", "aindurthi"]'), github.triggering_actor)
+        contains(fromJSON('["indurthytejaswi25", "aindurthi"]'), github.actor) ||
+        contains(fromJSON('["indurthytejaswi25", "aindurthi"]'), github.triggering_actor)
       )
     
     steps:
