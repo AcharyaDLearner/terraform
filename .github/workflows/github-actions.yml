@@ -1,9 +1,9 @@
 name: "Check flow"
 ##
 on:
-  # pull_request:
-  #   types: [opened,closed]
-  #   branches: [dev, qa, uat, main]
+  pull_request:
+    types: [opened,closed]
+    branches: [dev, qa, uat, main]
 
   pull_request_review:
     types: [submitted]
@@ -58,8 +58,8 @@ jobs:
     environment: ${{ github.event.inputs.environment  }}
     if: >
       (
-        (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
-        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))
+        ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
+        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) && (github.event == 'pull_request')
       ) 
     
     steps:
@@ -85,9 +85,10 @@ jobs:
     environment: ${{ github.event.inputs.environment  }}
     if: >
       (
-        contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref) &&
-        (github.event.request.state == 'approved')
-      )
+        ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)) ||
+        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) &&
+        (github.event.pull_request.merged == true) || (github.event.request.state == 'approved')
+      ) 
       
     steps:
       - name: Approved and Merged
