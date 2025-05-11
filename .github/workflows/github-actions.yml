@@ -86,7 +86,7 @@ jobs:
     if: >
       (
         contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref) &&
-        ((github.event.pull_request.merged == true) || (github.event.request.state == 'approved'))
+        (github.event.request.state == 'approved')
       )
       
     steps:
