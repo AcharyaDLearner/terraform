@@ -12,37 +12,37 @@ on:
   # push:
   #   branches: [dev, qa, uat, main]
 
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Please choose the environment to deploy"
-        required: true
-        default: 'dev'
-        type: choice
-        options:
-          - dev
-          - qa
-          - uat
-          - prod
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       description: "Please choose the environment to deploy"
+  #       required: true
+  #       default: 'dev'
+  #       type: choice
+  #       options:
+  #         - dev
+  #         - qa
+  #         - uat
+  #         - prod
 
-      lambda_function:
-        description: "Please give a targeted lambda function"
-        required: true
-        default: 'samplefunction'
-        type: string
+  #     lambda_function:
+  #       description: "Please give a targeted lambda function"
+  #       required: true
+  #       default: 'samplefunction'
+  #       type: string
 
-      all_lambdas:
-        description: "Choose all lambda function codes"
-        required: true
-        default: 'false'
-        type: boolean
+  #     all_lambdas:
+  #       description: "Choose all lambda function codes"
+  #       required: true
+  #       default: 'false'
+  #       type: boolean
 
 # ALLOWED_USERS: "[\"Shwetha118\", \"aindurthi\"]"
 
-env:
-  ENVIRONMENT: ${{ github.event.inputs.environment}}
-  LAMBDA_FUNCTION: ${{ inputs.lambda_function }}
-  ALLOWED_USERS: "[\"Shwetha118\", \"aindurthi\"]"
+# env:
+#   ENVIRONMENT: ${{ github.event.inputs.environment}}
+#   LAMBDA_FUNCTION: ${{ inputs.lambda_function }}
+#   ALLOWED_USERS: "[\"Shwetha118\", \"aindurthi\"]"
 
 run-name: "Infra Deployment on ${{ github.event.inputs.environment }}"
 
@@ -55,7 +55,7 @@ jobs:
   pre-commits:
     name: "Check on the prerequisites"
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment  }}
+    environment: ${{ github.base_ref  }}
     if: >
       (
         (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
@@ -70,7 +70,7 @@ jobs:
         run: echo "${{ toJson(github) }}"
 
       - name: Echo Step
-        run: echo "Conditions met. Running job! Environment ${{ github.event.inputs.environment || 'not provided' }}"
+        run: echo "Conditions met. Running job! Environment {{vars.environ}}"
 
 
 # github.event_name == 'push' &&
@@ -82,7 +82,7 @@ jobs:
 #       )
   pr-approved-and-merged:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment  }}
+    environment: ${{ github.base_ref  }}
     if: >
       (
         ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)) ||
@@ -97,4 +97,4 @@ jobs:
       
     steps:
       - name: Approved and Merged
-        run: echo "✅ Pull request approved and merged into environment ${{ github.event.inputs.environment }}"
+        run: echo "✅ Pull request approved and merged into environment ${{ github.event.inputs.environment }} and {{vars.environ}}"
