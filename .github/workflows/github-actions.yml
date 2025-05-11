@@ -60,6 +60,11 @@ jobs:
       (
         (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
         (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))
+        &&
+      (
+        contains(fromJSON('["indurthytejaswi25", "aindurthi"]'), github.actor) ||
+        contains(fromJSON('["indurthytejaswi25", "aindurthi"]'), github.triggering_actor)
+      )
       ) 
     
     steps:
