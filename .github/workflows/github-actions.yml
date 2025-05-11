@@ -5,9 +5,9 @@ on:
     types: [opened,closed]
     branches: [dev, qa, uat, main]
 
-  pull_request_review:
-    types: [submitted]
-    branches: [dev, qa, uat, main]
+  # pull_request_review:
+  #   types: [submitted]
+  #   branches: [dev, qa, uat, main]
 
   # push:
   #   branches: [dev, qa, uat, main]
