@@ -2,12 +2,12 @@ name: "Check flow"
 ##
 on:
   pull_request:
-    types: [opened,closed]
+    types: [closed]
     branches: [dev, qa, uat, main]
 
-  pull_request_review:
-    types: [submitted]
-    branches: [dev, qa, uat, main]
+  # pull_request_review:
+  #   types: [submitted]
+  #   branches: [dev, qa, uat, main]
 
   # push:
   #   branches: [dev, qa, uat, main]
@@ -58,8 +58,8 @@ jobs:
     environment: ${{ github.event.inputs.environment  }}
     if: >
       (
-        ((contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
-        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))) && (github.event == 'pull_request')
+        (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref)  ) ||
+        (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))
       ) 
     
     steps:
