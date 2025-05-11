@@ -70,7 +70,7 @@ jobs:
         run: echo "${{ toJson(github) }}"
 
       - name: Echo Step
-        run: echo "Conditions met. Running job! Environment ${{ github.event.inputs.environment || 'not provided' }}"
+        run: echo "Conditions met. Running job! Environment {{vars.environ}}"
 
 
 # github.event_name == 'push' &&
@@ -97,4 +97,4 @@ jobs:
       
     steps:
       - name: Approved and Merged
-        run: echo "✅ Pull request approved and merged into environment ${{ github.event.inputs.environment }}"
+        run: echo "✅ Pull request approved and merged into environment ${{ github.event.inputs.environment }} and {{vars.environ}}"
