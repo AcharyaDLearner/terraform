@@ -53,7 +53,7 @@ jobs:
     environment: ${{ github.event.inputs.environment  }}
     if: >
       (
-        (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref) && github.event.pull_request.opened == true  ) ||
+        (contains(fromJSON('["dev", "qa", "uat", "features"]'), github.base_ref) && github.event.pull_request.opened == true  ) ||
         (contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref))
       ) &&
       (
