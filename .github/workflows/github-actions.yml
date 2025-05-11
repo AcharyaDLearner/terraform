@@ -2,15 +2,15 @@ name: "Check flow"
 ##
 on:
   pull_request:
-    types: [closed]
+    types: [opened]
     branches: [dev, qa, uat, main]
 
   pull_request_review:
     types: [submitted]
     branches: [dev, qa, uat, main]
 
-  push:
-    branches: [dev, qa, uat, main]
+  # push:
+  #   branches: [dev, qa, uat, main]
 
   workflow_dispatch:
     inputs:
@@ -70,13 +70,15 @@ jobs:
       - name: Echo Step
         run: echo "Conditions met. Running job! Environment ${{ github.event.inputs.environment || 'not provided' }}"
 
+
+# github.event_name == 'push' &&
+#         github.event.head_commit.message != ''
   pr-approved-and-merged:
     runs-on: ubuntu-latest
     if: >
       (
         contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref) &&
-        github.event_name == 'push' &&
-        github.event.head_commit.message != ''
+        (github.event.review.state == 'approved')
       ) &&
       (
         contains(fromJSON('["Shwetha118", "aindurthi"]'), github.actor) ||
