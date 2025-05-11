@@ -2,7 +2,7 @@ name: "Check flow"
 ##
 on:
   pull_request:
-    types: [opened]
+    types: [opened,closed]
     branches: [dev, qa, uat, main]
 
   # pull_request_review:
