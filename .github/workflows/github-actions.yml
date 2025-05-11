@@ -50,6 +50,7 @@ jobs:
   pre-commits:
     name: "Check on the prerequisites"
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment  }}
     if: >
       (
         (contains(fromJSON('["dev", "qa", "uat"]'), github.base_ref) && github.event_name == 'pull_request') ||
@@ -59,7 +60,7 @@ jobs:
         contains(fromJSON('["Shwetha118", "aindurthi"]'), github.actor) ||
         contains(fromJSON('["Shwetha118", "aindurthi"]'), github.triggering_actor)
       )
-    environment: ${{ github.event.inputs.environment  }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,6 +76,7 @@ jobs:
 #         github.event.head_commit.message != ''
   pr-approved-and-merged:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment  }}
     if: >
       (
         contains(fromJSON('["refs/heads/dev", "refs/heads/qa", "refs/heads/uat"]'), github.ref) &&
